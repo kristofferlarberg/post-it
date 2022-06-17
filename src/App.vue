@@ -7,7 +7,9 @@ import { RouterView } from "vue-router";
     <div class="wrapper">post-it</div>
   </header>
 
-  <RouterView />
+  <main class="h-screen">
+    <RouterView />
+  </main>
 </template>
 
 <style>

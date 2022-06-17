@@ -7,6 +7,7 @@ module.exports = {
       "black-secondary": "#222222",
       "white-primary": "#ffffff",
       "white-secondary": "#f8f8f8",
+      violet: "#7c3aed",
     },
     extend: {},
   },
