@@ -11,14 +11,8 @@ import { RouterView } from "vue-router";
 </template>
 
 <style>
-@import "@/assets/base.css";
-
 #app {
   padding: 2rem;
-
   font-weight: normal;
-}
-
-@media (hover: hover) {
 }
 </style>
