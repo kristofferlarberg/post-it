@@ -30,7 +30,7 @@ export default {
 </script>
 
 <template>
-  <section>
+  <section class="m-8">
     <div class="my-12 flex flex-wrap gap-6">
       <div
         v-for="note in notes"
@@ -47,9 +47,24 @@ export default {
         </button>
       </div>
     </div>
+  </section>
+  <section class="p-8">
     <form @submit.prevent="addNote">
-      <input v-model="newNote" />
-      <button>Add note</button>
+      <label class="hidden" for="note">Add a note</label>
+      <textarea
+        v-model="newNote"
+        class="h-96 w-full border-2 p-3 text-lg text-black-primary"
+        id="note"
+        name="note"
+        rows="5"
+        cols="33"
+        placeholder="This is you writing a note…"
+      ></textarea>
+      <button
+        class="mt-6 bg-black-primary px-6 py-4 text-lg text-white-secondary"
+      >
+        Add note
+      </button>
     </form>
   </section>
 </template>

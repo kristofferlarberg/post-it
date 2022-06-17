@@ -3,8 +3,8 @@ import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">post-it</div>
+  <header class="px-8 pt-8">
+    <div>post-it</div>
   </header>
 
   <main class="h-screen">
@@ -14,7 +14,6 @@ import { RouterView } from "vue-router";
 
 <style>
 #app {
-  padding: 2rem;
   font-weight: normal;
 }
 </style>
