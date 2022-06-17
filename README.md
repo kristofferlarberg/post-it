@@ -1,6 +1,6 @@
 # post-it
 
-A brutalist note app built with Vue.js.
+A brutalist note app built with Vue.js. Let's CRUD some ⬛️
 
 ## Project Setup
 
@@ -10,18 +10,18 @@ npm install
 
 ### Compile and Hot-Reload for Development
 
-```sh
+```
 npm run dev
 ```
 
 ### Compile and Minify for Production
 
-```sh
+```
 npm run build
 ```
 
 ### Lint with [ESLint](https://eslint.org/)
 
-```sh
+```
 npm run lint
 ```
