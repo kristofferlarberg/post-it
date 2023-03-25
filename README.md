@@ -1,6 +1,6 @@
-# post-it
+# post-it ⬛️
 
-A brutalist note app built with Vue.js. Let's CRUD some ⬛️
+A brutalist note app built with Vue.js.
 
 ## Project Setup
 
