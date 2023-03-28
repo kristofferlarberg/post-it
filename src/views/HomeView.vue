@@ -2,6 +2,9 @@
 import CloseIcon from "../components/CloseIcon.vue";
 
 export default {
+  components: {
+    CloseIcon,
+  },
   data() {
     return {
       notes: [
@@ -11,9 +14,6 @@ export default {
       ],
       activeNote: {},
     };
-  },
-  components: {
-    CloseIcon,
   },
   methods: {
     addNote() {
@@ -38,29 +38,51 @@ export default {
 <template>
   <section class="m-8">
     <div class="my-12 flex flex-wrap gap-6">
-      <div v-for="note in notes" :key="note.id"
-        class="h-96 w-96 bg-black-primary p-3 text-lg text-white-secondary dark:bg-white-primary dark:text-black-primary">
+      <div
+        v-for="note in notes"
+        :key="note.id"
+        class="h-96bg-black-primary w-96 p-3 text-lg text-white-secondary dark:bg-white-primary dark:text-black-primary"
+      >
         <form v-if="activeNote.id === note.id" @submit.prevent="updateNote">
           <label class="hidden" for="note">Edit note</label>
-          <textarea v-model="activeNote.text"
-            class="resize-none h-80 w-full border-2 p-4 text-lg text-white-secondary dark:text-black-secondary bg-black-primary dark:bg-white-primary border-none"
-            id="note" name="note" rows="5" cols="33" placeholder="This is you writing a note…" />
-          <button class="absolute right-10 top-0 bg-black-primary text-white-secondary">
+          <textarea
+            id="note"
+            v-model="activeNote.text"
+            class="h-80 w-full resize-none border-2 border-none bg-black-primary p-4 text-lg text-white-secondary dark:bg-white-primary dark:text-black-secondary"
+            name="note"
+            rows="5"
+            cols="33"
+            placeholder="This is you writing a note…"
+          />
+          <button
+            class="absolute right-10 top-0 bg-black-primary text-white-secondary"
+          >
             Save
           </button>
         </form>
-        <div v-else class="p-4 break-words">
+        <div v-else class="break-words p-4">
           {{ note.text }}
-          <button @click="editNote(note)" class="absolute right-12 top-0" aria-label="Edit note">
+          <button
+            class="absolute right-12 top-0"
+            aria-label="Edit note"
+            @click="editNote(note)"
+          >
             Edit
           </button>
         </div>
-        <button @click="removeNote(note)" class="absolute right-3 top-3 h-[30px] w-[30px]" aria-label="Remove note">
+        <button
+          class="absolute right-3 top-3 h-[30px] w-[30px]"
+          aria-label="Remove note"
+          @click="removeNote(note)"
+        >
           <CloseIcon />
         </button>
       </div>
     </div>
-    <button @click="addNote" class="mt-6 bg-black-primary px-6 py-4 text-lg text-white-secondary">
+    <button
+      class="mt-6 bg-black-primary px-6 py-4 text-lg text-white-secondary"
+      @click="addNote"
+    >
       Add note
     </button>
   </section>
