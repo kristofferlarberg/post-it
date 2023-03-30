@@ -1,38 +1,28 @@
-<script>
+<script setup>
+import { ref, onMounted } from "vue";
 import CloseIcon from "../components/CloseIcon.vue";
 
-export default {
-  components: {
-    CloseIcon,
-  },
-  data() {
-    return {
-      notes: [
-        { id: Math.random(), text: "Note" },
-        { id: Math.random(), text: "Note again" },
-        { id: Math.random(), text: "Note some more" },
-      ],
-      activeNote: {},
-    };
-  },
-  methods: {
-    addNote() {
-      const newNote = { id: Math.random(), text: "" };
-      this.notes.push(newNote);
-      this.activeNote = newNote;
-    },
-    updateNote() {
-      this.notes.find((note) => note.id === this.activeNote);
-      this.activeNote = {};
-    },
-    removeNote(note) {
-      this.notes = this.notes.filter((t) => t !== note);
-    },
-    editNote(note) {
-      this.activeNote = note;
-    },
-  },
-};
+const notes = ref([{ id: Math.random(), text: "Note" }]);
+const activeNote = ref({});
+
+function newNote() {
+  const note = { id: Math.random(), text: "" };
+  notes.value.push(note);
+  activeNote.value = note;
+}
+
+function saveNote() {
+  notes.value.find((note) => note.id === activeNote.value);
+  activeNote.value = {};
+}
+
+function removeNote(note) {
+  notes.value = notes.value.filter((t) => t !== note);
+}
+
+function editNote(note) {
+  activeNote.value = note;
+}
 </script>
 
 <template>
@@ -41,9 +31,9 @@ export default {
       <div
         v-for="note in notes"
         :key="note.id"
-        class="h-96bg-black-primary w-96 p-3 text-lg text-white-secondary dark:bg-white-primary dark:text-black-primary"
+        class="h-96 w-96 bg-black-primary p-3 text-lg text-white-secondary dark:bg-white-primary dark:text-black-primary"
       >
-        <form v-if="activeNote.id === note.id" @submit.prevent="updateNote">
+        <form v-if="activeNote.id === note.id" @submit.prevent="saveNote">
           <label class="hidden" for="note">Edit note</label>
           <textarea
             id="note"
@@ -81,7 +71,7 @@ export default {
     </div>
     <button
       class="mt-6 bg-black-primary px-6 py-4 text-lg text-white-secondary"
-      @click="addNote"
+      @click="newNote"
     >
       Add note
     </button>
