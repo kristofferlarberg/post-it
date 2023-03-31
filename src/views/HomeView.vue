@@ -1,5 +1,6 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
+
 import CloseIcon from "../components/CloseIcon.vue";
 
 const notes = ref([{ id: Math.random(), text: "Note" }]);
@@ -12,7 +13,9 @@ function newNote() {
 }
 
 function saveNote() {
-  notes.value.find((note) => note.id === activeNote.value);
+  notes.value.map((note) =>
+    note.id === activeNote.value.id ? activeNote : note
+  );
   activeNote.value = {};
 }
 
