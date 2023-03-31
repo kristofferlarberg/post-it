@@ -1,10 +1,15 @@
 <script setup>
 import { ref } from "vue";
+import { marked } from "marked";
 
 import CloseIcon from "../components/CloseIcon.vue";
 
 const notes = ref([{ id: Math.random(), text: "Note" }]);
 const activeNote = ref({});
+function parsedNote(note) {
+  const parsed = marked(note.text);
+  return parsed;
+}
 
 function newNote() {
   const note = { id: Math.random(), text: "" };
@@ -54,7 +59,7 @@ function editNote(note) {
           </button>
         </form>
         <div v-else class="break-words p-4">
-          {{ note.text }}
+          <div v-html="parsedNote(note)" />
           <button
             class="absolute right-12 top-0"
             aria-label="Edit note"

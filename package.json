@@ -9,6 +9,7 @@
     "format": "prettier .  --write"
   },
   "dependencies": {
+    "marked": "^4.3.0",
     "vue": "^3.2.36",
     "vue-router": "^4.0.15"
   },
