@@ -1,10 +1,4 @@
-<script>
-export default {
-  props: {
-    size: Number,
-  },
-};
-</script>
+<script setup></script>
 
 <template>
   <svg
