@@ -3,15 +3,16 @@ import { ref } from "vue";
 import TextEditor from "../components/TextEditor.vue";
 
 const notes = ref([]);
+const activeNote = ref(0);
 
 function newNote() {
   const note = { id: Math.random(), text: "" };
   notes.value.push(note);
+  activeNote.value = note.id;
 }
 
 function removeNote(note) {
   notes.value = notes.value.filter((el) => el !== note);
-  console.log(notes.value);
 }
 </script>
 
@@ -22,7 +23,9 @@ function removeNote(note) {
         v-for="note in notes"
         :key="note.id"
         v-model="note.text"
+        :active="activeNote === note.id"
         @remove-note="removeNote(note)"
+        @set-active="activeNote = note.id"
       />
     </div>
     <button

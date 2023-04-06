@@ -1,7 +1,7 @@
 <script setup>
 import { useEditor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 import CloseIcon from "./CloseIcon.vue";
 
@@ -10,24 +10,43 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  active: { type: Boolean, default: true },
 });
 
-const emit = defineEmits(["update:modelValue", "remove-note"]);
+const emit = defineEmits(["update:modelValue", "remove-note", "set-active"]);
 
-const saveEditButtonValue = ref("Save");
+const statusButtonValue = ref("Save");
 
 const editor = useEditor({
-  editable: true,
+  editable: props.active,
   content: props.modelValue,
   extensions: [StarterKit],
+  autofocus: true,
 });
 
-function toggleEditable() {
-  editor.value.setEditable(!editor.value.isEditable);
-  saveEditButtonValue.value = editor.value.isEditable ? "Save" : "Edit";
+watch(
+  () => props.active,
+  (active) => {
+    editor.value.setEditable(active);
+    statusButtonValue.value = active ? "Save" : "Edit";
+  }
+);
 
+function setActive() {
+  if (!props.active) {
+    emit("set-active");
+    editor.value.commands.focus();
+  }
+}
+
+function saveValue() {
   if (props.modelValue === editor.value.getHTML()) return;
   else emit("update:modelValue", editor.value.getHTML());
+}
+
+function toggleEditable() {
+  setActive();
+  saveValue();
 }
 </script>
 
@@ -44,7 +63,7 @@ function toggleEditable() {
       class="absolute right-10 top-0 bg-black-primary text-white-secondary"
       @click="toggleEditable"
     >
-      {{ saveEditButtonValue }}
+      {{ statusButtonValue }}
     </button>
     <button
       class="absolute right-3 top-3 h-[30px] w-[30px]"
