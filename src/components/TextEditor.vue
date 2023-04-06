@@ -1,6 +1,7 @@
 <script setup>
 import { useEditor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
 import { ref, watch } from "vue";
 
 import CloseIcon from "./CloseIcon.vue";
@@ -20,7 +21,7 @@ const statusButtonValue = ref("Save");
 const editor = useEditor({
   editable: props.active,
   content: props.modelValue,
-  extensions: [StarterKit],
+  extensions: [StarterKit, Image],
   autofocus: true,
 });
 
@@ -48,6 +49,14 @@ function toggleEditable() {
   setActive();
   saveValue();
 }
+
+function addImage() {
+  const url = window.prompt("URL");
+
+  if (url) {
+    editor.value.chain().focus().setImage({ src: url }).run();
+  }
+}
 </script>
 
 <template>
@@ -58,6 +67,7 @@ function toggleEditable() {
       :editor="editor"
       class="p-4 text-lg text-white-secondary dark:text-black-secondary"
     />
+    <button @click="addImage">setImage</button>
     <button
       v-if="editor"
       class="absolute right-10 top-0 bg-black-primary text-white-secondary"
