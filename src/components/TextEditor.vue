@@ -44,7 +44,7 @@ watch(
 function toggleEditable() {
   emit("toggle-active");
 
-  if (props.active) {
+  if (!props.active) {
     editor.value.commands.focus();
   }
 }
