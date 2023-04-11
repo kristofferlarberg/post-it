@@ -12,6 +12,7 @@ function newNote() {
 }
 
 function removeNote(note) {
+  activeNote.value = 0;
   notes.value = notes.value.filter((el) => el !== note);
 }
 
