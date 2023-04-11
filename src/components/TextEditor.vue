@@ -14,7 +14,7 @@ const props = defineProps({
   active: { type: Boolean, default: true },
 });
 
-const emit = defineEmits(["update:modelValue", "remove-note", "set-active"]);
+const emit = defineEmits(["update:modelValue", "remove-note", "toggle-active"]);
 
 const statusButtonValue = ref("Save");
 
@@ -33,9 +33,9 @@ watch(
   }
 );
 
-function setActive() {
-  if (!props.active) {
-    emit("set-active");
+function toggleActive() {
+  emit("toggle-active");
+  if (props.active) {
     editor.value.commands.focus();
   }
 }
@@ -46,7 +46,7 @@ function saveValue() {
 }
 
 function toggleEditable() {
-  setActive();
+  toggleActive();
   saveValue();
 }
 

@@ -14,6 +14,11 @@ function newNote() {
 function removeNote(note) {
   notes.value = notes.value.filter((el) => el !== note);
 }
+
+function toggleActive(note) {
+  if (activeNote.value === note.id) activeNote.value = 0;
+  else activeNote.value = note.id;
+}
 </script>
 
 <template>
@@ -25,7 +30,7 @@ function removeNote(note) {
         v-model="note.text"
         :active="activeNote === note.id"
         @remove-note="removeNote(note)"
-        @set-active="activeNote = note.id"
+        @toggle-active="toggleActive(note)"
       />
     </div>
     <button
