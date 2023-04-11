@@ -17,12 +17,20 @@ const props = defineProps({
 const emit = defineEmits(["update:modelValue", "remove-note", "toggle-active"]);
 
 const statusButtonValue = ref("Save");
+const isImage = ref(false);
+const isText = ref(false);
 
 const editor = useEditor({
   editable: props.active,
   content: props.modelValue,
   extensions: [StarterKit, Image],
   autofocus: true,
+  onUpdate: ({ editor }) => {
+    if (editor.getHTML().length > 0);
+    {
+      isText.value = true;
+    }
+  },
 });
 
 watch(
@@ -35,6 +43,7 @@ watch(
 
 function toggleEditable() {
   emit("toggle-active");
+
   if (props.active) {
     editor.value.commands.focus();
   }
@@ -55,6 +64,8 @@ function addImage() {
 
   if (url) {
     editor.value.chain().focus().setImage({ src: url }).run();
+    isImage.value = true;
+    emit("toggle-active");
   }
 }
 </script>
@@ -67,9 +78,9 @@ function addImage() {
       :editor="editor"
       class="p-4 text-lg text-white-secondary dark:text-black-secondary"
     />
-    <button @click="addImage">setImage</button>
+    <button v-if="active && !isText" @click="addImage">setImage</button>
     <button
-      v-if="editor"
+      v-if="!isImage"
       class="absolute right-10 top-0 bg-black-primary text-white-secondary"
       @click="handleClick"
     >
