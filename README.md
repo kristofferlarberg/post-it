@@ -2,6 +2,8 @@
 
 A brutalist note app built with Vue.js.
 
+Inspired by [are.na](https://www.are.na/).
+
 ## Project Setup
 
 ```
