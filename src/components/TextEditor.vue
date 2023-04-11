@@ -33,21 +33,21 @@ watch(
   }
 );
 
-function toggleActive() {
+function toggleEditable() {
   emit("toggle-active");
   if (props.active) {
     editor.value.commands.focus();
   }
 }
 
-function saveValue() {
+function saveNote() {
   if (props.modelValue === editor.value.getHTML()) return;
   else emit("update:modelValue", editor.value.getHTML());
 }
 
-function toggleEditable() {
-  toggleActive();
-  saveValue();
+function handleClick() {
+  toggleEditable();
+  saveNote();
 }
 
 function addImage() {
@@ -71,7 +71,7 @@ function addImage() {
     <button
       v-if="editor"
       class="absolute right-10 top-0 bg-black-primary text-white-secondary"
-      @click="toggleEditable"
+      @click="handleClick"
     >
       {{ statusButtonValue }}
     </button>
