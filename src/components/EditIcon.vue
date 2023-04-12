@@ -2,9 +2,10 @@
   <svg
     xmlns="http://www.w3.org/2000/svg"
     class="stroke-violet stroke-[3px] hover:stroke-white-secondary"
-    viewBox="-1 -1 55 55"
+    viewBox="-15 -3 55 55"
+    fill="none"
     aria-hidden="true"
   >
-    <path d="M.783 51 49.434 1M50.783 51 2.132 1" stroke-linecap="square" />
+    <path d="M0 49H12.5M25 49H12.5M12.5 49V1M0 1H25" />
   </svg>
 </template>

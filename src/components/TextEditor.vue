@@ -5,6 +5,9 @@ import Image from "@tiptap/extension-image";
 import { ref, watch } from "vue";
 
 import CloseIcon from "./CloseIcon.vue";
+import SaveIcon from "./SaveIcon.vue";
+import EditIcon from "./EditIcon.vue";
+import ImageIcon from "./ImageIcon.vue";
 
 const props = defineProps({
   modelValue: {
@@ -75,17 +78,27 @@ function handleImageInput() {
       class="first:min-h-96 first:w-96 first:p-0.5"
     />
     <button
-      class="absolute right-24 top-0 bg-black-primary text-white-secondary"
+      class="absolute right-28 top-3 h-[30px] w-[30px]"
+      aria-label="Add image to note"
       @click="handleImageInput"
     >
-      setImage
+      <ImageIcon />
     </button>
     <button
-      v-if="!isImage"
-      class="absolute right-10 top-0 bg-black-primary text-white-secondary"
+      v-if="!isImage && active"
+      class="absolute right-16 top-3 h-[30px] w-[30px]"
+      aria-label="Save note"
       @click="handleTextInput"
     >
-      {{ active ? "Save" : "Edit" }}
+      <SaveIcon v-if="active" />
+    </button>
+    <button
+      v-if="!isImage && !active"
+      class="absolute right-16 top-3 h-[30px] w-[30px]"
+      aria-label="Edit note"
+      @click="handleTextInput"
+    >
+      <EditIcon />
     </button>
     <button
       class="absolute right-3 top-3 h-[30px] w-[30px]"
