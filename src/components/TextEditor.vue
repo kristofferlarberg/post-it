@@ -16,9 +16,7 @@ const props = defineProps({
 
 const emit = defineEmits(["update:modelValue", "remove-note", "toggle-active"]);
 
-const statusButtonValue = ref("Save");
 const isImage = ref(false);
-const isText = ref(false);
 
 const editor = useEditor({
   editable: props.active,
@@ -28,7 +26,7 @@ const editor = useEditor({
   onUpdate: ({ editor }) => {
     if (editor.getHTML().length > 0);
     {
-      isText.value = true;
+      isImage.value = false;
     }
   },
 });
@@ -37,16 +35,12 @@ watch(
   () => props.active,
   (active) => {
     editor.value.setEditable(active);
-    statusButtonValue.value = active ? "Save" : "Edit";
+    editor.value.commands.focus();
   }
 );
 
 function toggleEditable() {
   emit("toggle-active");
-
-  if (!props.active) {
-    editor.value.commands.focus();
-  }
 }
 
 function saveNote() {
@@ -54,18 +48,20 @@ function saveNote() {
   else emit("update:modelValue", editor.value.getHTML());
 }
 
-function handleClick() {
+function handleTextInput() {
   toggleEditable();
   saveNote();
 }
 
-function addImage() {
+function handleImageInput() {
   const url = window.prompt("URL");
 
   if (url) {
+    editor.value.commands.clearContent();
     editor.value.chain().focus().setImage({ src: url }).run();
-    isImage.value = true;
-    emit("toggle-active");
+    if (props.active) toggleEditable();
+    if (!isImage.value) isImage.value = true;
+    saveNote();
   }
 }
 </script>
@@ -78,13 +74,13 @@ function addImage() {
       :editor="editor"
       class="p-4 text-lg text-white-secondary dark:text-black-secondary"
     />
-    <button v-if="active && !isText" @click="addImage">setImage</button>
+    <button @click="handleImageInput">setImage</button>
     <button
       v-if="!isImage"
       class="absolute right-10 top-0 bg-black-primary text-white-secondary"
-      @click="handleClick"
+      @click="handleTextInput"
     >
-      {{ statusButtonValue }}
+      {{ active ? "Save" : "Edit" }}
     </button>
     <button
       class="absolute right-3 top-3 h-[30px] w-[30px]"
