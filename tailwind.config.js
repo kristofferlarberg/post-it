@@ -9,6 +9,9 @@ module.exports = {
       "white-secondary": "#f8f8f8",
       violet: "#7c3aed",
     },
+    minHeight: {
+      96: "24rem",
+    },
     extend: {},
   },
   plugins: [],

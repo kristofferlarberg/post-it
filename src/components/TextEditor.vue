@@ -68,13 +68,18 @@ function handleImageInput() {
 
 <template>
   <div
-    class="h-96 w-96 bg-black-primary p-3 text-lg text-white-secondary dark:bg-white-primary dark:text-black-primary"
+    class="bg-black-primary px-2 pt-14 pb-2 text-lg text-white-secondary dark:bg-white-primary dark:text-black-secondary"
   >
     <editor-content
       :editor="editor"
-      class="p-4 text-lg text-white-secondary dark:text-black-secondary"
+      class="first:min-h-96 first:w-96 first:p-0.5"
     />
-    <button @click="handleImageInput">setImage</button>
+    <button
+      class="absolute right-24 top-0 bg-black-primary text-white-secondary"
+      @click="handleImageInput"
+    >
+      setImage
+    </button>
     <button
       v-if="!isImage"
       class="absolute right-10 top-0 bg-black-primary text-white-secondary"
