@@ -12,6 +12,9 @@ module.exports = {
     minHeight: {
       96: "24rem",
     },
+    minWidth: {
+      96: "24rem",
+    },
     extend: {},
   },
   safelist: [".ProseMirror"],

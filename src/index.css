@@ -28,4 +28,8 @@
   .ProseMirror {
     @apply min-h-96 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet;
   }
+
+  .ProseMirror img {
+    @apply h-96;
+  }
 }
