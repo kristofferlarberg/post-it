@@ -83,10 +83,7 @@ function resetNote() {
   <div
     class="bg-black-primary px-2 pt-14 pb-2 text-lg text-white-secondary dark:bg-white-primary dark:text-black-secondary"
   >
-    <editor-content
-      :editor="editor"
-      class="first:min-h-96 first:w-96 first:p-0.5"
-    />
+    <editor-content :editor="editor" class="p-0.5 first:w-96" />
     <div class="absolute right-2 top-2 left-3 flex justify-between">
       <div class="flex gap-3">
         <button

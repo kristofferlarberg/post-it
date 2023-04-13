@@ -14,5 +14,6 @@ module.exports = {
     },
     extend: {},
   },
+  safelist: [".ProseMirror"],
   plugins: [],
 };
