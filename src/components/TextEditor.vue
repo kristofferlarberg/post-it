@@ -8,7 +8,7 @@ import CloseIcon from "./CloseIcon.vue";
 import SaveIcon from "./SaveIcon.vue";
 import EditIcon from "./EditIcon.vue";
 import ImageIcon from "./ImageIcon.vue";
-import RemoveImageIcon from "./RemoveImageIcon.vue";
+import DeleteContentIcon from "./DeleteContentIcon.vue";
 
 const props = defineProps({
   modelValue: {
@@ -20,7 +20,7 @@ const props = defineProps({
 
 const emit = defineEmits(["update:modelValue", "remove-note", "toggle-active"]);
 
-const isImage = ref(false);
+const contentType = ref("");
 
 const editor = useEditor({
   editable: props.active,
@@ -30,8 +30,10 @@ const editor = useEditor({
   onUpdate: ({ editor }) => {
     if (editor.getHTML().length > 0) {
       if (editor.getHTML().includes("<img src=")) {
-        isImage.value = true;
-      } else isImage.value = false;
+        contentType.value = "image";
+      } else if (editor.getHTML() === "<p></p>") {
+        contentType.value = "";
+      } else contentType.value = "text";
     }
   },
 });
@@ -71,7 +73,9 @@ function handleImageInput() {
 
 function resetNote() {
   editor.value.commands.clearContent();
-  toggleEditable();
+  contentType.value = "";
+  if (!props.active) toggleEditable();
+  editor.value.commands.focus();
 }
 </script>
 
@@ -83,37 +87,43 @@ function resetNote() {
       :editor="editor"
       class="first:min-h-96 first:w-96 first:p-0.5"
     />
-    <div class="absolute right-2 top-2 left-2 flex justify-end gap-3">
+    <div class="absolute right-2 top-2 left-3 flex justify-between">
+      <div class="flex gap-3">
+        <button
+          v-if="contentType !== 'text'"
+          class="h-[30px] w-[30px]"
+          aria-label="Add image to note"
+          @click="handleImageInput"
+        >
+          <ImageIcon />
+        </button>
+        <button
+          v-if="(contentType === 'text' && active) || (!contentType && active)"
+          class="h-[30px] w-[30px]"
+          aria-label="Save note"
+          @click="handleTextInput"
+        >
+          <SaveIcon v-if="active" />
+        </button>
+        <button
+          v-if="
+            (contentType === 'text' && !active) || (!contentType && !active)
+          "
+          class="h-[30px] w-[30px]"
+          aria-label="Edit note"
+          @click="handleTextInput"
+        >
+          <EditIcon />
+        </button>
+      </div>
+
       <button
-        class="h-[30px] w-[30px]"
-        aria-label="Add image to note"
-        @click="handleImageInput"
-      >
-        <ImageIcon />
-      </button>
-      <button
-        v-if="isImage"
+        v-if="(contentType && active) || contentType === 'image'"
         class="h-[30px] w-[30px]"
         aria-label="Remove image from note"
         @click="resetNote"
       >
-        <RemoveImageIcon />
-      </button>
-      <button
-        v-if="!isImage && active"
-        class="h-[30px] w-[30px]"
-        aria-label="Save note"
-        @click="handleTextInput"
-      >
-        <SaveIcon v-if="active" />
-      </button>
-      <button
-        v-if="!isImage && !active"
-        class="h-[30px] w-[30px]"
-        aria-label="Edit note"
-        @click="handleTextInput"
-      >
-        <EditIcon />
+        <DeleteContentIcon />
       </button>
       <button
         class="h-[30px] w-[30px]"
