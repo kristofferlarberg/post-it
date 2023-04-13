@@ -8,6 +8,7 @@ import CloseIcon from "./CloseIcon.vue";
 import SaveIcon from "./SaveIcon.vue";
 import EditIcon from "./EditIcon.vue";
 import ImageIcon from "./ImageIcon.vue";
+import RemoveImageIcon from "./RemoveImageIcon.vue";
 
 const props = defineProps({
   modelValue: {
@@ -67,6 +68,11 @@ function handleImageInput() {
     saveNote();
   }
 }
+
+function resetNote() {
+  editor.value.commands.clearContent();
+  toggleEditable();
+}
 </script>
 
 <template>
@@ -84,6 +90,14 @@ function handleImageInput() {
         @click="handleImageInput"
       >
         <ImageIcon />
+      </button>
+      <button
+        v-if="isImage"
+        class="h-[30px] w-[30px]"
+        aria-label="Remove image from note"
+        @click="resetNote"
+      >
+        <RemoveImageIcon />
       </button>
       <button
         v-if="!isImage && active"
