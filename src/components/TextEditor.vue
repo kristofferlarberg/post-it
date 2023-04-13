@@ -77,35 +77,37 @@ function handleImageInput() {
       :editor="editor"
       class="first:min-h-96 first:w-96 first:p-0.5"
     />
-    <button
-      class="absolute right-28 top-3 h-[30px] w-[30px]"
-      aria-label="Add image to note"
-      @click="handleImageInput"
-    >
-      <ImageIcon />
-    </button>
-    <button
-      v-if="!isImage && active"
-      class="absolute right-16 top-3 h-[30px] w-[30px]"
-      aria-label="Save note"
-      @click="handleTextInput"
-    >
-      <SaveIcon v-if="active" />
-    </button>
-    <button
-      v-if="!isImage && !active"
-      class="absolute right-16 top-3 h-[30px] w-[30px]"
-      aria-label="Edit note"
-      @click="handleTextInput"
-    >
-      <EditIcon />
-    </button>
-    <button
-      class="absolute right-3 top-3 h-[30px] w-[30px]"
-      aria-label="Remove note"
-      @click="$emit('remove-note')"
-    >
-      <CloseIcon />
-    </button>
+    <div class="absolute right-2 top-2 left-2 flex justify-end gap-3">
+      <button
+        class="h-[30px] w-[30px]"
+        aria-label="Add image to note"
+        @click="handleImageInput"
+      >
+        <ImageIcon />
+      </button>
+      <button
+        v-if="!isImage && active"
+        class="h-[30px] w-[30px]"
+        aria-label="Save note"
+        @click="handleTextInput"
+      >
+        <SaveIcon v-if="active" />
+      </button>
+      <button
+        v-if="!isImage && !active"
+        class="h-[30px] w-[30px]"
+        aria-label="Edit note"
+        @click="handleTextInput"
+      >
+        <EditIcon />
+      </button>
+      <button
+        class="h-[30px] w-[30px]"
+        aria-label="Remove note"
+        @click="$emit('remove-note')"
+      >
+        <CloseIcon class="h-[30px] w-[30px]" />
+      </button>
+    </div>
   </div>
 </template>
