@@ -27,9 +27,10 @@ const editor = useEditor({
   extensions: [StarterKit, Image],
   autofocus: true,
   onUpdate: ({ editor }) => {
-    if (editor.getHTML().length > 0);
-    {
-      isImage.value = false;
+    if (editor.getHTML().length > 0) {
+      if (editor.getHTML().includes("<img src=")) {
+        isImage.value = true;
+      } else isImage.value = false;
     }
   },
 });
@@ -63,7 +64,6 @@ function handleImageInput() {
     editor.value.commands.clearContent();
     editor.value.chain().focus().setImage({ src: url }).run();
     if (props.active) toggleEditable();
-    if (!isImage.value) isImage.value = true;
     saveNote();
   }
 }
