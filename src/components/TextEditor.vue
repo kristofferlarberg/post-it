@@ -121,7 +121,7 @@ function resetNote() {
       </div>
 
       <button
-        v-if="(contentType && active) || contentType === 'image'"
+        v-if="contentType"
         class="h-[30px] w-[30px]"
         aria-label="Remove image from note"
         @click="resetNote"
