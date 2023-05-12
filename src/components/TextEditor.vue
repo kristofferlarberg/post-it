@@ -86,7 +86,7 @@ function toggleMenu() {
 
 <template>
   <div
-    class="bg-black-primary px-2 pt-14 pb-2 text-lg text-white-secondary dark:bg-white-primary dark:text-black-secondary"
+    class="bg-black-primary px-10 pt-12 pb-10 text-lg text-white-secondary dark:bg-white-primary dark:text-black-secondary"
     @mouseenter="toggleMenu"
     @mouseleave="toggleMenu"
     @focusin="showMenu = true"

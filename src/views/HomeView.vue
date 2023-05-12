@@ -35,7 +35,7 @@ function toggleActive(note) {
       />
     </div>
     <button
-      class="mt-6 bg-black-primary px-6 py-4 text-lg text-white-secondary"
+      class="mt-6 bg-black-primary px-6 py-4 text-lg text-white-secondary dark:bg-white-primary dark:text-black-secondary"
       @click="newNote"
     >
       Add note
