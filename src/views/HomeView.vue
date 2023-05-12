@@ -1,9 +1,20 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watchEffect, onMounted } from "vue";
 import TextEditor from "../components/TextEditor.vue";
 
 const notes = ref([]);
 const activeNote = ref(0);
+
+onMounted(() => {
+  if (JSON.parse(localStorage.getItem("notes"))) {
+    notes.value = JSON.parse(localStorage.getItem("notes"));
+  }
+});
+
+watchEffect(() => {
+  if (notes.value.length > 0)
+    localStorage.setItem("notes", JSON.stringify(notes.value));
+});
 
 function newNote() {
   const note = { id: Math.random(), text: "" };

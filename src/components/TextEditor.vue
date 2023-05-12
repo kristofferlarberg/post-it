@@ -44,6 +44,7 @@ watch(
   (active) => {
     editor.value.setEditable(active);
     editor.value.commands.focus();
+    saveNote();
   }
 );
 
