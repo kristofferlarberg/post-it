@@ -21,6 +21,7 @@ const props = defineProps({
 const emit = defineEmits(["update:modelValue", "remove-note", "toggle-active"]);
 
 const contentType = ref("");
+const showMenu = ref(false);
 
 const editor = useEditor({
   editable: props.active,
@@ -77,11 +78,18 @@ function resetNote() {
   if (!props.active) toggleEditable();
   editor.value.commands.focus();
 }
+
+function toggleMenu() {
+  showMenu.value = !showMenu.value;
+}
 </script>
 
 <template>
   <div
     class="bg-black-primary px-2 pt-14 pb-2 text-lg text-white-secondary dark:bg-white-primary dark:text-black-secondary"
+    @mouseenter="toggleMenu"
+    @mouseleave="toggleMenu"
+    @focusin="showMenu = true"
   >
     <editor-content
       :editor="editor"
@@ -90,7 +98,10 @@ function resetNote() {
         'p-0.5',
       ]"
     />
-    <div class="absolute right-2 top-2 left-3 flex justify-between">
+    <div
+      v-if="showMenu"
+      class="absolute right-2 top-2 left-3 flex justify-between"
+    >
       <div class="flex gap-3">
         <button
           v-if="contentType !== 'text'"
@@ -132,6 +143,7 @@ function resetNote() {
         class="h-[30px] w-[30px]"
         aria-label="Remove note"
         @click="$emit('remove-note')"
+        @focusout="showMenu = false"
       >
         <CloseIcon class="h-[30px] w-[30px]" />
       </button>
