@@ -12,12 +12,13 @@ onMounted(() => {
 });
 
 watchEffect(() => {
-  if (notes.value.length > 0)
+  if (notes.value.length > 0) {
     localStorage.setItem("notes", JSON.stringify(notes.value));
+  }
 });
 
-function newNote() {
-  const note = { id: Math.random(), text: "" };
+function newNote(type) {
+  const note = { id: Math.random(), content: "", contentType: type };
   notes.value.push(note);
   activeNote.value = note.id;
 }
@@ -25,6 +26,7 @@ function newNote() {
 function removeNote(note) {
   activeNote.value = 0;
   notes.value = notes.value.filter((el) => el !== note);
+  if (notes.value.length === 0) localStorage.clear();
 }
 
 function toggleActive(note) {
@@ -35,21 +37,28 @@ function toggleActive(note) {
 
 <template>
   <section class="m-8">
+    <button
+      class="mt-6 bg-black-primary px-6 py-4 text-lg text-white-secondary dark:bg-white-primary dark:text-black-secondary"
+      @click="newNote('text')"
+    >
+      Add text
+    </button>
+    <button
+      class="mt-6 bg-black-primary px-6 py-4 text-lg text-white-secondary dark:bg-white-primary dark:text-black-secondary"
+      @click="newNote('image')"
+    >
+      Add image
+    </button>
     <div class="my-12 flex flex-wrap gap-6">
       <TextEditor
         v-for="note in notes"
         :key="note.id"
-        v-model="note.text"
+        v-model:content="note.content"
+        v-model:content-type="note.contentType"
         :active="activeNote === note.id"
         @remove-note="removeNote(note)"
         @toggle-active="toggleActive(note)"
       />
     </div>
-    <button
-      class="mt-6 bg-black-primary px-6 py-4 text-lg text-white-secondary dark:bg-white-primary dark:text-black-secondary"
-      @click="newNote"
-    >
-      Add note
-    </button>
   </section>
 </template>

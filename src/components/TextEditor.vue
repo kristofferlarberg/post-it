@@ -2,7 +2,7 @@
 import { useEditor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 import CloseIcon from "./CloseIcon.vue";
 import SaveIcon from "./SaveIcon.vue";
@@ -11,32 +11,38 @@ import ImageIcon from "./ImageIcon.vue";
 import DeleteContentIcon from "./DeleteContentIcon.vue";
 
 const props = defineProps({
-  modelValue: {
-    type: String,
-    default: "",
-  },
+  content: { type: String, default: "" },
   active: { type: Boolean, default: true },
+  contentType: { type: String, default: "" },
 });
 
-const emit = defineEmits(["update:modelValue", "remove-note", "toggle-active"]);
+const emit = defineEmits([
+  "update:content",
+  "update:contentType",
+  "remove-note",
+  "toggle-active",
+]);
 
-const contentType = ref("");
 const showMenu = ref(false);
 
 const editor = useEditor({
   editable: props.active,
-  content: props.modelValue,
+  content: props.content,
   extensions: [StarterKit, Image],
   autofocus: true,
   onUpdate: ({ editor }) => {
     if (editor.getHTML().length > 0) {
       if (editor.getHTML().includes("<img src=")) {
-        contentType.value = "image";
+        emit("update:contentType", "image");
       } else if (editor.getHTML() === "<p></p>") {
-        contentType.value = "";
-      } else contentType.value = "text";
+        emit("update:contentType", "");
+      } else emit("update:contentType", "text");
     }
   },
+});
+
+onMounted(() => {
+  if (props.contentType === "image" && props.active) handleImageInput();
 });
 
 watch(
@@ -53,8 +59,8 @@ function toggleEditable() {
 }
 
 function saveNote() {
-  if (props.modelValue === editor.value.getHTML()) return;
-  else emit("update:modelValue", editor.value.getHTML());
+  if (props.content === editor.value.getHTML()) return;
+  else emit("update:content", editor.value.getHTML());
 }
 
 function handleTextInput() {
@@ -64,20 +70,20 @@ function handleTextInput() {
 
 function handleImageInput() {
   const url = window.prompt("URL");
-
   if (url) {
     editor.value.commands.clearContent();
     editor.value.chain().focus().setImage({ src: url }).run();
     if (props.active) toggleEditable();
     saveNote();
-  }
+  } else if (!url && !props.content) {
+    emit("remove-note");
+  } else return;
 }
 
 function resetNote() {
   editor.value.commands.clearContent();
-  contentType.value = "";
-  if (!props.active) toggleEditable();
-  editor.value.commands.focus();
+  emit("update:contentType", "");
+  emit("update:content", "");
 }
 
 function toggleMenu() {
@@ -95,7 +101,9 @@ function toggleMenu() {
     <editor-content
       :editor="editor"
       :class="[
-        contentType === 'image' ? 'first:w-auto first:min-w-96' : 'first:w-96',
+        props.contentType === 'image'
+          ? 'first:w-auto first:min-w-96'
+          : 'first:w-96',
         'p-0.5',
       ]"
     />
@@ -105,7 +113,7 @@ function toggleMenu() {
     >
       <div class="flex gap-3">
         <button
-          v-if="contentType !== 'text'"
+          v-if="props.contentType !== 'text'"
           class="h-[30px] w-[30px]"
           aria-label="Add image to note"
           @click="handleImageInput"
@@ -113,7 +121,9 @@ function toggleMenu() {
           <ImageIcon />
         </button>
         <button
-          v-if="(contentType === 'text' && active) || (!contentType && active)"
+          v-if="
+            (props.contentType === 'text' && active) || (!contentType && active)
+          "
           class="h-[30px] w-[30px]"
           aria-label="Save note"
           @click="handleTextInput"
@@ -122,7 +132,8 @@ function toggleMenu() {
         </button>
         <button
           v-if="
-            (contentType === 'text' && !active) || (!contentType && !active)
+            (props.contentType !== 'image' && !active) ||
+            (!contentType && !active)
           "
           class="h-[30px] w-[30px]"
           aria-label="Edit note"
@@ -133,7 +144,7 @@ function toggleMenu() {
       </div>
 
       <button
-        v-if="contentType"
+        v-if="props.contentType"
         class="h-[30px] w-[30px]"
         aria-label="Remove image from note"
         @click="resetNote"
