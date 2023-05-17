@@ -36,19 +36,26 @@ function toggleActive(note) {
 </script>
 
 <template>
+  <div class="flex items-center justify-between px-8 pt-8">
+    <header>
+      <h1>post-it</h1>
+    </header>
+    <nav class="flex gap-6">
+      <button
+        class="bg-black-primary px-6 py-4 text-lg text-white-secondary hover:bg-violet dark:bg-white-primary dark:text-black-secondary"
+        @click="newNote('text')"
+      >
+        Add text
+      </button>
+      <button
+        class="bg-black-primary px-6 py-4 text-lg text-white-secondary hover:bg-violet dark:bg-white-primary dark:text-black-secondary"
+        @click="newNote('image')"
+      >
+        Add image
+      </button>
+    </nav>
+  </div>
   <section class="m-8">
-    <button
-      class="mt-6 bg-black-primary px-6 py-4 text-lg text-white-secondary dark:bg-white-primary dark:text-black-secondary"
-      @click="newNote('text')"
-    >
-      Add text
-    </button>
-    <button
-      class="mt-6 bg-black-primary px-6 py-4 text-lg text-white-secondary dark:bg-white-primary dark:text-black-secondary"
-      @click="newNote('image')"
-    >
-      Add image
-    </button>
     <div class="my-12 flex flex-wrap gap-6">
       <TextEditor
         v-for="note in notes"
