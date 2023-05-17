@@ -1,7 +1,7 @@
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    class="stroke-violet stroke-[3px] hover:stroke-white-secondary"
+    class="stroke-violet stroke-[3px]"
     viewBox="-5 -3 55 55"
     fill="none"
     aria-hidden="true"
