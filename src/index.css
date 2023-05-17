@@ -30,6 +30,6 @@
   }
 
   .ProseMirror img {
-    @apply h-96;
+    @apply min-h-96 object-cover object-center;
   }
 }

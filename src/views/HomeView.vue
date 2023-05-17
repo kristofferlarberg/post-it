@@ -56,7 +56,9 @@ function toggleActive(note) {
     </nav>
   </div>
   <section class="m-8">
-    <div class="my-12 flex flex-wrap gap-6">
+    <div
+      class="my-12 grid grid-flow-row grid-cols-1 items-center gap-6 md:grid-cols-2 xl:grid-cols-3"
+    >
       <TextEditor
         v-for="note in notes"
         :key="note.id"

@@ -97,21 +97,16 @@ function toggleMenu() {
       !props.contentType
         ? 'bg-violet-secondary'
         : 'bg-black-primary dark:bg-white-primary',
+      props.contentType === 'image'
+        ? 'max-h-screen overflow-hidden'
+        : 'px-10 pt-12 pb-10',
       'text-lg text-white-secondary dark:text-black-secondary',
     ]"
     @mouseenter="toggleMenu"
     @mouseleave="toggleMenu"
     @focusin="showMenu = true"
   >
-    <editor-content
-      :editor="editor"
-      :class="[
-        props.contentType === 'image'
-          ? 'first:w-auto first:min-w-96'
-          : 'first:w-96',
-        'p-0.5',
-      ]"
-    />
+    <editor-content :editor="editor" />
     <div
       v-if="showMenu"
       class="absolute right-2 top-2 left-3 flex justify-between"
