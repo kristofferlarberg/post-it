@@ -1,7 +1,7 @@
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    class="stroke-violet stroke-[2px]"
+    class="stroke-violet-primary stroke-[2px]"
     viewBox="-3 -3 55 55"
     fill="none"
     aria-hidden="true"

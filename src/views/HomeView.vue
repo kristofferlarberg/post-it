@@ -42,13 +42,13 @@ function toggleActive(note) {
     </header>
     <nav class="flex gap-6">
       <button
-        class="bg-black-primary px-6 py-4 text-lg text-white-secondary hover:bg-violet dark:bg-white-primary dark:text-black-secondary"
+        class="bg-black-primary px-6 py-4 text-lg text-white-secondary hover:bg-violet-primary dark:bg-white-primary dark:text-black-secondary"
         @click="newNote('text')"
       >
         Add text
       </button>
       <button
-        class="bg-black-primary px-6 py-4 text-lg text-white-secondary hover:bg-violet dark:bg-white-primary dark:text-black-secondary"
+        class="bg-black-primary px-6 py-4 text-lg text-white-secondary hover:bg-violet-primary dark:bg-white-primary dark:text-black-secondary"
         @click="newNote('image')"
       >
         Add image

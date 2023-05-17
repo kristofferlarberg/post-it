@@ -93,7 +93,12 @@ function toggleMenu() {
 
 <template>
   <div
-    class="bg-black-primary px-10 pt-12 pb-10 text-lg text-white-secondary dark:bg-white-primary dark:text-black-secondary"
+    :class="[
+      !props.contentType
+        ? 'bg-violet-secondary'
+        : 'bg-black-primary dark:bg-white-primary',
+      'text-lg text-white-secondary dark:text-black-secondary',
+    ]"
     @mouseenter="toggleMenu"
     @mouseleave="toggleMenu"
     @focusin="showMenu = true"

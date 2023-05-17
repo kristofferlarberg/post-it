@@ -7,7 +7,8 @@ module.exports = {
       "black-secondary": "#222222",
       "white-primary": "#ffffff",
       "white-secondary": "#f8f8f8",
-      violet: "#7c3aed",
+      "violet-primary": "#7c3aed",
+      "violet-secondary": "#c4b5fd",
     },
     minHeight: {
       96: "24rem",

@@ -26,7 +26,7 @@
 
 @layer components {
   .ProseMirror {
-    @apply min-h-96 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet;
+    @apply min-h-96 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-primary;
   }
 
   .ProseMirror img {
