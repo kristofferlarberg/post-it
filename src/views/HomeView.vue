@@ -36,7 +36,9 @@ function toggleActive(note) {
 </script>
 
 <template>
-  <div class="flex items-center justify-between px-8 pt-8">
+  <div
+    class="flex flex-col justify-between gap-4 px-8 pt-8 sm:flex-row sm:items-center"
+  >
     <header>
       <h1>post-it</h1>
     </header>
