@@ -85,10 +85,6 @@ function resetNote() {
   emit("update:contentType", "");
   emit("update:content", "");
 }
-
-function toggleMenu() {
-  showMenu.value = !showMenu.value;
-}
 </script>
 
 <template>
@@ -102,14 +98,17 @@ function toggleMenu() {
         : 'px-10 pt-12 pb-10',
       'text-lg text-white-secondary dark:text-black-secondary',
     ]"
-    @mouseenter="toggleMenu"
-    @mouseleave="toggleMenu"
+    @mouseenter="showMenu = true"
+    @mouseleave="showMenu = false"
     @focusin="showMenu = true"
+    @focusout="showMenu = false"
   >
     <editor-content :editor="editor" />
     <div
-      v-if="showMenu"
-      class="absolute right-2 top-2 left-3 flex justify-between"
+      :class="[
+        !showMenu ? 'opacity-0' : 'opacity-100',
+        'absolute right-2 top-2 left-3 flex justify-between',
+      ]"
     >
       <div class="flex gap-3">
         <button
@@ -155,7 +154,6 @@ function toggleMenu() {
         class="h-[30px] w-[30px]"
         aria-label="Remove note"
         @click="$emit('remove-note')"
-        @focusout="showMenu = false"
       >
         <CloseIcon class="h-[30px] w-[30px]" />
       </button>
