@@ -73,7 +73,7 @@ function handleImageInput() {
   if (url) {
     editor.value.commands.clearContent();
     editor.value.chain().focus().setImage({ src: url }).run();
-    if (props.active) toggleEditable();
+    toggleEditable();
     saveNote();
   } else if (!url && !props.content) {
     emit("remove-note");
