@@ -32,11 +32,13 @@ const editor = useEditor({
   autofocus: true,
   onUpdate: ({ editor }) => {
     if (editor.getHTML().length > 0) {
-      if (editor.getHTML().includes("<img src=")) {
-        emit("update:contentType", "image");
-      } else if (editor.getHTML() === "<p></p>") {
+      if (editor.getHTML() === "<p></p>" || editor.getHTML() === '<img src="">')
         emit("update:contentType", "");
-      } else emit("update:contentType", "text");
+      else if (editor.getHTML().startsWith("<img src=")) {
+        emit("update:contentType", "image");
+      } else if (editor.getHTML().startsWith("<p>")) {
+        emit("update:contentType", "text");
+      } else return;
     }
   },
 });
@@ -60,7 +62,9 @@ function toggleEditable() {
 
 function saveNote() {
   if (props.content === editor.value.getHTML()) return;
-  else emit("update:content", editor.value.getHTML());
+  else if (!props.content && editor.value.getHTML() === "<p></p>") {
+    emit("remove-note");
+  } else emit("update:content", editor.value.getHTML());
 }
 
 function handleTextInput() {
@@ -73,17 +77,18 @@ function handleImageInput() {
   if (url) {
     editor.value.commands.clearContent();
     editor.value.chain().focus().setImage({ src: url }).run();
-    toggleEditable();
+    if (props.active) toggleEditable();
     saveNote();
-  } else if (!url && !props.content) {
-    emit("remove-note");
+  } else if (!url) {
+    if (!props.content) emit("remove-note");
   } else return;
 }
 
 function resetNote() {
   editor.value.commands.clearContent();
   emit("update:contentType", "");
-  emit("update:content", "");
+  emit("update:content", "<p></p>");
+  if (props.active) toggleEditable();
 }
 </script>
 
@@ -121,7 +126,8 @@ function resetNote() {
         </button>
         <button
           v-if="
-            (props.contentType === 'text' && active) || (!contentType && active)
+            (props.contentType !== 'image' && active) ||
+            (!contentType && active)
           "
           class="h-[30px] w-[30px]"
           aria-label="Save note"

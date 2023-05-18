@@ -19,7 +19,7 @@ watchEffect(() => {
 
 function newNote(type) {
   const note = { id: Math.random(), content: "", contentType: type };
-  notes.value.push(note);
+  notes.value.unshift(note);
   activeNote.value = note.id;
 }
 
