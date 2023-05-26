@@ -4,11 +4,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import { onMounted, ref, watch } from "vue";
 
-import DeleteIcon from "./icons/DeleteIcon.vue";
-import SaveTextIcon from "./icons/SaveTextIcon.vue";
-import EditTextIcon from "./icons/EditTextIcon.vue";
-import ImageIcon from "./icons/ImageIcon.vue";
-import DeleteContentIcon from "./icons/DeleteContentIcon.vue";
+import Menu from "./Menu.vue";
 
 const props = defineProps({
   content: { type: String, default: "" },
@@ -19,8 +15,8 @@ const props = defineProps({
 const emit = defineEmits([
   "update:content",
   "update:contentType",
-  "remove-note",
-  "toggle-active",
+  "removeNote",
+  "toggleActive",
 ]);
 
 const showMenu = ref(false);
@@ -57,13 +53,13 @@ watch(
 );
 
 function toggleEditable() {
-  emit("toggle-active");
+  emit("toggleActive");
 }
 
 function saveNote() {
   if (props.content === editor.value.getHTML()) return;
   else if (!props.content && editor.value.getHTML() === "<p></p>") {
-    emit("remove-note");
+    emit("removeNote");
   } else emit("update:content", editor.value.getHTML());
 }
 
@@ -80,7 +76,7 @@ function handleImageInput() {
     if (props.active) toggleEditable();
     saveNote();
   } else if (!url) {
-    if (!props.content) emit("remove-note");
+    if (!props.content) emit("removeNote");
   } else return;
 }
 
@@ -109,60 +105,14 @@ function resetNote() {
     @focusout="showMenu = false"
   >
     <editor-content :editor="editor" />
-    <div
-      :class="[
-        !showMenu ? 'opacity-0' : 'opacity-100',
-        'absolute right-2 top-2 left-3 flex justify-between',
-      ]"
-    >
-      <div class="flex gap-3">
-        <button
-          v-if="props.contentType !== 'text'"
-          class="h-[30px] w-[30px]"
-          aria-label="Add image to note"
-          @click="handleImageInput"
-        >
-          <ImageIcon />
-        </button>
-        <button
-          v-if="
-            (props.contentType !== 'image' && active) ||
-            (!contentType && active)
-          "
-          class="h-[30px] w-[30px]"
-          aria-label="Save note"
-          @click="handleTextInput"
-        >
-          <SaveTextIcon v-if="active" />
-        </button>
-        <button
-          v-if="
-            (props.contentType !== 'image' && !active) ||
-            (!contentType && !active)
-          "
-          class="h-[30px] w-[30px]"
-          aria-label="Edit note"
-          @click="handleTextInput"
-        >
-          <EditTextIcon />
-        </button>
-      </div>
-
-      <button
-        v-if="props.contentType"
-        class="h-[30px] w-[30px]"
-        aria-label="Remove image from note"
-        @click="resetNote"
-      >
-        <DeleteContentIcon />
-      </button>
-      <button
-        class="h-[30px] w-[30px]"
-        aria-label="Remove note"
-        @click="$emit('remove-note')"
-      >
-        <DeleteIcon class="h-[30px] w-[30px]" />
-      </button>
-    </div>
+    <Menu
+      :show-menu="showMenu"
+      :content-type="contentType"
+      :active="props.active"
+      @handle-text-input="handleTextInput"
+      @handle-image-input="handleImageInput"
+      @reset-note="resetNote"
+      @remove-note="$emit('removeNote')"
+    />
   </div>
 </template>

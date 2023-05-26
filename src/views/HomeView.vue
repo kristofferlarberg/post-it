@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watchEffect, onMounted } from "vue";
-import TextEditor from "../components/TextEditor.vue";
+import Note from "../components/Note.vue";
 
 const notes = ref([]);
 const activeNote = ref(0);
@@ -61,7 +61,7 @@ function toggleActive(note) {
     <div
       class="my-12 grid grid-flow-row grid-cols-1 items-center gap-6 md:grid-cols-2 xl:grid-cols-3"
     >
-      <TextEditor
+      <Note
         v-for="note in notes"
         :key="note.id"
         v-model:content="note.content"
