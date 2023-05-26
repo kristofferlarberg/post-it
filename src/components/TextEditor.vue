@@ -4,11 +4,11 @@ import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import { onMounted, ref, watch } from "vue";
 
-import CloseIcon from "./CloseIcon.vue";
-import SaveIcon from "./SaveIcon.vue";
-import EditIcon from "./EditIcon.vue";
-import ImageIcon from "./ImageIcon.vue";
-import DeleteContentIcon from "./DeleteContentIcon.vue";
+import DeleteIcon from "./icons/DeleteIcon.vue";
+import SaveTextIcon from "./icons/SaveTextIcon.vue";
+import EditTextIcon from "./icons/EditTextIcon.vue";
+import ImageIcon from "./icons/ImageIcon.vue";
+import DeleteContentIcon from "./icons/DeleteContentIcon.vue";
 
 const props = defineProps({
   content: { type: String, default: "" },
@@ -133,7 +133,7 @@ function resetNote() {
           aria-label="Save note"
           @click="handleTextInput"
         >
-          <SaveIcon v-if="active" />
+          <SaveTextIcon v-if="active" />
         </button>
         <button
           v-if="
@@ -144,7 +144,7 @@ function resetNote() {
           aria-label="Edit note"
           @click="handleTextInput"
         >
-          <EditIcon />
+          <EditTextIcon />
         </button>
       </div>
 
@@ -161,7 +161,7 @@ function resetNote() {
         aria-label="Remove note"
         @click="$emit('remove-note')"
       >
-        <CloseIcon class="h-[30px] w-[30px]" />
+        <DeleteIcon class="h-[30px] w-[30px]" />
       </button>
     </div>
   </div>
