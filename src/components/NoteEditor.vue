@@ -4,7 +4,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import { onMounted, ref, watch } from "vue";
 
-import Menu from "./Menu.vue";
+import NoteMenu from "./NoteMenu.vue";
 
 const props = defineProps({
   content: { type: String, default: "" },
@@ -28,9 +28,13 @@ const editor = useEditor({
   autofocus: true,
   onUpdate: ({ editor }) => {
     if (editor.getHTML().length > 0) {
-      if (editor.getHTML() === "<p></p>" || editor.getHTML() === '<img src="">')
+      if (
+        editor.getHTML() === "<p></p>" ||
+        editor.getHTML() === '<img src="">'
+      ) {
+        console.log("text");
         emit("update:contentType", "");
-      else if (editor.getHTML().startsWith("<img src=")) {
+      } else if (editor.getHTML().startsWith("<img src=")) {
         emit("update:contentType", "image");
       } else if (editor.getHTML().startsWith("<p>")) {
         emit("update:contentType", "text");
@@ -48,7 +52,6 @@ watch(
   (active) => {
     editor.value.setEditable(active);
     editor.value.commands.focus();
-    saveNote();
   }
 );
 
@@ -57,10 +60,16 @@ function toggleEditable() {
 }
 
 function saveNote() {
-  if (props.content === editor.value.getHTML()) return;
-  else if (!props.content && editor.value.getHTML() === "<p></p>") {
+  if (props.content !== editor.value.getHTML()) {
+    emit("update:content", editor.value.getHTML());
+  } else return;
+  /* if (props.content === editor.value.getHTML()) {
+    return;
+  } else if (!props.content && editor.value.getHTML() === "<p></p>") {
     emit("removeNote");
-  } else emit("update:content", editor.value.getHTML());
+  } else {
+    emit("update:content", editor.value.getHTML());
+  } */
 }
 
 function handleTextInput() {
@@ -105,7 +114,7 @@ function resetNote() {
     @focusout="showMenu = false"
   >
     <editor-content :editor="editor" />
-    <Menu
+    <NoteMenu
       :show-menu="showMenu"
       :content-type="contentType"
       :active="props.active"

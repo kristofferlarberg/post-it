@@ -4,7 +4,7 @@ import SaveTextIcon from "./icons/SaveTextIcon.vue";
 import EditTextIcon from "./icons/EditTextIcon.vue";
 import ImageIcon from "./icons/ImageIcon.vue";
 import DeleteContentIcon from "./icons/DeleteContentIcon.vue";
-import MenuButton from "./MenuButton.vue";
+import NoteMenuButton from "./NoteMenuButton.vue";
 
 const props = defineProps({
   showMenu: { type: Boolean, default: false },
@@ -23,14 +23,14 @@ defineEmits(["handleImageInput", "handleTextInput", "resetNote", "removeNote"]);
     ]"
   >
     <div class="flex gap-3">
-      <MenuButton
+      <NoteMenuButton
         v-if="props.contentType !== 'text'"
         aria-label="Add image to note"
         @handle-click="$emit('handleImageInput')"
       >
         <ImageIcon />
-      </MenuButton>
-      <MenuButton
+      </NoteMenuButton>
+      <NoteMenuButton
         v-if="
           (props.contentType !== 'image' && active) || (!contentType && active)
         "
@@ -38,8 +38,8 @@ defineEmits(["handleImageInput", "handleTextInput", "resetNote", "removeNote"]);
         @handle-click="$emit('handleTextInput')"
       >
         <SaveTextIcon v-if="active" />
-      </MenuButton>
-      <MenuButton
+      </NoteMenuButton>
+      <NoteMenuButton
         v-if="
           (props.contentType !== 'image' && !active) ||
           (!contentType && !active)
@@ -48,17 +48,20 @@ defineEmits(["handleImageInput", "handleTextInput", "resetNote", "removeNote"]);
         @handle-click="$emit('handleTextInput')"
       >
         <EditTextIcon />
-      </MenuButton>
+      </NoteMenuButton>
     </div>
-    <MenuButton
+    <NoteMenuButton
       v-if="props.contentType"
       aria-label="Remove content from note"
       @handle-click="$emit('resetNote')"
     >
       <DeleteContentIcon />
-    </MenuButton>
-    <MenuButton aria-label="Remove note" @handle-click="$emit('removeNote')">
+    </NoteMenuButton>
+    <NoteMenuButton
+      aria-label="Remove note"
+      @handle-click="$emit('removeNote')"
+    >
       <DeleteIcon class="h-[30px] w-[30px]" />
-    </MenuButton>
+    </NoteMenuButton>
   </div>
 </template>
